@@ -1,0 +1,744 @@
+% Define important features for the document
+\documentclass[12pt,oneside]{article}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+
+% Import packages
+\usepackage[margin = 1in]{geometry}
+\usepackage{amsfonts, amsmath, amssymb, amsthm, calc, centernot, color, csquotes, dsfont, enumitem, environ, fancyhdr, fontawesome5, graphicx, hyperref, marvosym, mathrsfs, mathtools, tcolorbox, titlesec}
+\usepackage[flushmargin,hang]{footmisc}
+\tcbuselibrary{breakable}
+
+% Define toggles
+\newif\ifsolutions
+\solutionstrue % Toggle for instructor version
+% \solutionsfalse % Toggle for student version
+
+% Define size and spacing of section and subsection
+\titleformat{\section}
+  {\normalfont\large\bfseries}
+  {\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\normalsize\bfseries}
+  {\thesubsection}{1em}{}
+\titlespacing*{\section}{0pt}{6pt}{6pt} % ({left}{before}{after})
+\titlespacing*{\subsection}{0pt}{6pt}{6pt} % ({left}{before}{after})
+
+% Define commands
+\newcommand{\indep}{\perp\!\!\!\perp}
+\newcommand{\notindep}{\mathrel{\not\!\perp\!\!\!\perp}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\Cov}{\text{Cov}}
+\newcommand{\Corr}{\text{Corr}}
+\newcommand{\SD}{\text{SD}}
+\newcommand{\SE}{\text{SE}}
+\newcommand{\Bias}{\text{Bias}}
+\newcommand{\MSE}{\text{MSE}}
+\newcommand{\Risk}{\text{Risk}}
+\newcommand{\Like}{\mathcal{L}}
+\newcommand{\boot}{\text{boot}}
+\newcommand{\strat}{\text{strat}}
+\newcommand{\supp}{\text{supp}}
+\newcommand{\MLE}{\text{MLE}}
+\newcommand{\MoM}{\text{MoM}}
+\newcommand{\MOM}{\text{MOM}}
+\newcommand{\OLS}{\text{OLS}}
+\newcommand{\WLS}{\text{WLS}}
+\newcommand{\LS}{\text{LS}}
+\newcommand{\MAP}{\text{MAP}}
+\newcommand{\MAE}{\text{MAE}}
+\newcommand{\LP}{\text{LP}}
+\newcommand{\HT}{\text{HT}}
+\newcommand{\JS}{\text{JS}}
+\newcommand{\RB}{\text{RB}}
+\newcommand{\UB}{\text{UB}}
+\newcommand{\DIM}{\text{DIM}}
+\newcommand{\PATE}{\text{PATE}}
+\newcommand{\SATE}{\text{SATE}}
+\newcommand{\VIF}{\text{VIF}}
+\newcommand{\GVIF}{\text{GVIF}}
+\newcommand{\AIC}{\text{AIC}}
+\newcommand{\BIC}{\text{BIC}}
+\newcommand{\LASSO}{\text{LASSO}}
+\newcommand{\PSS}{\text{PSS}}
+\newcommand{\CV}{\text{CV}}
+\newcommand{\logit}{\text{logit}}
+\newcommand{\odds}{\text{odds}}
+\newcommand{\OR}{\text{OR}}
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Bern}{\text{Bern}}
+\newcommand{\Bin}{\text{Bin}}
+\newcommand{\Beta}{\text{Beta}}
+\newcommand{\Gam}{\text{Gamma}}
+\newcommand{\Expo}{\text{Expo}}
+\newcommand{\Pois}{\text{Pois}}
+\newcommand{\Unif}{\text{Unif}}
+\newcommand{\DUnif}{\text{DUnif}}
+\newcommand{\Geom}{\text{Geom}}
+\newcommand{\FS}{\text{FS}}
+\newcommand{\NBin}{\text{NBin}}
+\newcommand{\HGeom}{\text{HGeom}}
+\newcommand{\Mult}{\text{Mult}}
+\newcommand{\MVN}{\text{MVN}}
+\newcommand{\IG}{\text{IG}}
+\newcommand{\Tweedie}{\text{Tweedie}}
+\newcommand{\simiid}{\overset{\text{i.i.d.}}{\sim}}
+\newcommand{\simind}{\overset{\text{ind.}}{\sim}}
+\newcommand{\simnull}{\overset{H_0}{\sim}}
+\newcommand{\simapprox}{\overset{\cdot}{\sim}}
+\newcommand{\simnullapprox}{\overset{H_0}{\simapprox}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\indic}{\mathds{1}}
+\newcommand{\iid}{\text{i.i.d.}}
+\newcommand{\Ind}{\text{Ind}}
+\newcommand{\SSq}{\text{SSq}}
+\newcommand{\trace}{\text{trace}}
+\newcommand{\rank}{\text{rank}}
+\newcommand{\diag}{\text{diag}}
+\newcommand{\adj}{\text{adj}}
+\newcommand{\SSE}{\text{SSE}}
+\newcommand{\SST}{\text{SST}}
+\newcommand{\SSR}{\text{SSR}}
+\newcommand{\GLS}{\text{GLS}}
+\newcommand{\df}{\text{df}}
+\newcommand{\ti}{\text{time}}
+\newcommand{\outcome}{\text{outcome}}
+\newcommand{\exposure}{\text{exposure}}
+\newcommand{\NA}{\text{NA}}
+\newcommand{\cp}{\text{cp}}
+\newcommand{\tip}{\textbf{\faLightbulb}: }
+\newcommand{\warning}{\textbf{\Biohazard}: }
+\newcommand{\blank}[1][4cm]{\underline{\hspace{#1}}}
+
+% Define theorem-style environment (italic body, bold header)
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+
+% Define definition-style environment (upright body, bold header)
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{problem}{\faPen \ Problem}
+\newtheorem{concept}{\faPen \ Concept Checker}
+\newtheorem{challenge}{\faFire \ Challenge}
+\newtheorem{activity}{\faDiceThree \ Activity}
+
+% Define idea-style environment (unnumbered definition)
+\newtheorem*{idea}{Idea}
+
+% Define remark-style environment (upright body, italic header)
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+% Define environment for solution box
+\newsavebox{\solutioncontentbox}
+\NewEnviron{solutionbox}[1][Solution]{
+  \sbox{\solutioncontentbox}{
+    \begin{minipage}{\dimexpr\linewidth-2\fboxsep\relax}
+      \BODY
+    \end{minipage}
+  }
+  \ifsolutions
+    \begin{tcolorbox}[
+      title=#1,
+      colback=gray!5,
+      colframe=black,
+      breakable
+    ]
+      \BODY
+    \end{tcolorbox}
+  \else
+    \begin{tcolorbox}[
+      title=#1,
+      colback=white,
+      colframe=black,
+      breakable,
+      height=\dimexpr\ht\solutioncontentbox+\dp\solutioncontentbox+1cm\relax
+    ]
+    \end{tcolorbox}
+  \fi
+}
+
+% Begin document
+\begin{document}
+\pagestyle{fancy}
+\fancyhead[L]{STAT 139: Introduction to Linear Models}
+\fancyhead[R]{Fall 2026}
+\begin{center}
+\bf \Large
+Section 3: Simple Linear Regression \\[0.5em]
+\normalsize
+STAT 139 Teaching Team
+\end{center}
+
+% Section: Introduction
+\section{Introduction}
+
+\subsection{Logistics}
+
+Welcome! The goal of our weekly section is to review content from lecture, with emphasis on big-picture intuition, mathematical derivation, and hands-on practice.
+
+Specifically, we aim for section to be interactive, well-paced, inclusive, and fun! Please do not hesitate to reach out if you have any questions/feedback!
+
+\subsection{Office Hours}
+
+$\bullet$ See Canvas for the most accurate information!
+
+\subsection{Attendance}
+
+$\bullet$ Please notify the Teaching Fellow (TF) if your attendance hasn't been taken!
+
+% Section: Notation and Vocabulary
+\section{Notation and Vocabulary}
+
+\begin{idea}
+As we expand into \textit{higher dimensions}, it is important to keep our notation clear and consistent.
+\end{idea}
+
+\subsection{Parameters, Estimators, and Estimates}
+
+\begin{definition}[Parameter]
+A value that specifies a model—typically unknown.
+
+$\bullet$ E.g., let $Y_1, \ldots, Y_n \simiid \Pois(\mu)$, with $\mu = \E[Y_i]$ unknown. Here, $\mu$ is a parameter.
+\end{definition}
+
+\begin{definition}[Estimator]
+A function of the random data as our \enquote{best guess} of something unknown.
+
+$\bullet$ E.g., let $\hat{\mu} = \bar{Y} = \frac{1}{n} \sum_{i = 1}^{n} Y_i$. Here, $\hat{\mu}$ is an estimator for $\mu$.
+\end{definition}
+
+\begin{definition}[Estimate]
+A realized value of the estimator once we observe data.
+
+$\bullet$ E.g., with our observations, we can calculate $\bar{y} = \frac{1}{n} \sum_{i = 1}^{n} y_i$. Here, $\bar{y}$ is an estimate.\footnote{In this example, $\hat{\mu}$ can refer to either the estimator or estimate, and which of the two it is should be clear from context.}
+\end{definition}
+
+\subsection{What Does $S$ Mean?}
+
+$\bullet$ $s_{xx} = \sum^{n}_{i = 1} (X_i - \bar{X})^2$ (i.e., sum of squares with $X$).
+
+$\bullet$ $s_{yy} = \sum^{n}_{i = 1} (Y_i - \bar{Y})^2$ (i.e., sum of squares with $Y$).
+
+$\bullet$ $s_{xy} = \sum^{n}_{i = 1} (X_i - \bar{X}) (Y_i - \bar{Y})$ (i.e., sum of squares with $X$ and $Y$).
+
+$\bullet$ $S^2_{X} = \frac{1}{n - 1} \sum^{n}_{i = 1} (X_i - \bar{X})^2$ (i.e., sample variance for $X$).
+
+$\bullet$ $S^2_{Y} = \frac{1}{n - 1} \sum^{n}_{i = 1} (Y_i - \bar{Y})^2$ (i.e., sample variance for $Y$).
+
+$\bullet$ $S_{X} = \sqrt{\frac{1}{n - 1} \sum^{n}_{i = 1} (X_i - \bar{X})^2}$ (i.e., sample standard deviation for $X$).
+
+$\bullet$ $S_{Y} = \sqrt{\frac{1}{n - 1} \sum^{n}_{i = 1} (Y_i - \bar{Y})^2}$ (i.e., sample standard deviation for $Y$).
+
+\begin{concept}
+How can we rewrite $S^{2}_{X}$ in terms of $s_{xx}$?
+\end{concept}
+
+\begin{solutionbox}
+$S^{2}_{X} = \frac{1}{n - 1} \sum^{n}_{i = 1} (X_i - \bar{X})^{2} = \frac{1}{n - 1} s_{xx}$.
+\end{solutionbox}
+
+\subsection{Moving Up Dimensions}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{p{6cm}|p{5cm}|p{5cm}}
+\textbf{Dimension} & 
+\textbf{Constant} & 
+\textbf{Random} \\ \hline
+
+Scalar
+& Lowercase: $c$
+& Uppercase: $X$ \\
+
+\hline
+
+Vector
+& Lowercase w/ arrow: $\vec{c}$
+
+Lowercase w/ bold: $\boldsymbol{c}$
+& Uppercase w/ arrow: $\vec{X}$
+
+Uppercase w/ bold: $\boldsymbol{X}$ \\
+
+\hline
+
+Matrix
+& Uppercase: $C$
+
+Uppercase w/ bold: $\boldsymbol{C}$
+& Uppercase: $X$
+
+Uppercase w/ bold: $\boldsymbol{X}$
+\end{tabular}
+\end{center}
+
+\begin{definition}[Vectors and matrices]
+Unless otherwise noted, $\vec{c}$ refers to a \textit{column} vector: \[\vec{c} = 
+\begin{pmatrix}
+c_1 \\
+\vdots \\
+c_n
+\end{pmatrix}.
+\]
+
+$\bullet$ Thus, the matrix $\boldsymbol{C}$ can be interpreted as a collection of \textit{column} vectors: \[\boldsymbol{C} = 
+(\vec{c}_1 \mid \vec{c}_2 \mid \ldots \mid \vec{c}_m) =
+\begin{pmatrix}
+c_{1, 1} & \ldots & c_{1, m} \\
+\vdots & \ddots & \vdots \\
+c_{n, 1} & \ldots & c_{n, m}
+\end{pmatrix}.
+\]
+
+
+\end{definition}
+
+\begin{definition}[Random vector]
+$\vec{X}$ is a \textit{random vector} if its components are random variables.
+
+$\bullet$ Similarly, $\boldsymbol{X}$ is a \textit{random matrix} if its components are random variables.\footnote{Unfortunately, there isn't great notation to differentiate between a constant matrix and a random matrix, but which of the two it is should be clear from context.}
+\end{definition}
+
+% Section: Predictive Regression
+\section{Predictive Regression}
+
+\begin{idea}
+We don't know the future, but statistics allows us to better \textit{understand} and \textit{predict} outcomes using data! We begin the course with \textit{simple linear regression}, which will serve as the foundation for everything else we'll learn.
+\end{idea}
+
+\subsection{Fundamentals}
+
+\begin{definition}[Outcome]
+For observation $i \in \{1, \ldots, n\}$, we are interested in predicting/modeling the \textit{outcome} $Y_i$—a.k.a. the \textit{response}, \textit{output}, and \textit{dependent variable}.\footnote{In \textit{regression}, the outcome is continuous. We will learn about \textit{classification} later in the course.}
+
+$\bullet$ This is a \textit{random variable}.
+
+$\bullet$ E.g., we are interested in predicting someone's SAT score.
+\end{definition}
+
+\begin{definition}[Predictor]
+For observation $i \in \{1, \ldots, n\}$, we model $Y_i$ as a function of the \textit{predictor} $x_i$—a.k.a. the \textit{input}, \textit{explanatory}, and \textit{independent variable}.
+
+$\bullet$ This is a \textit{fixed quantity}. We treat this value as non-random.\footnote{We'll often denote the predictor with a lowercase $x$ to indicate that it is a \textit{crystallized} value. Sometimes, it is denoted with a capital $X$ to indicate that it is a \textit{random variable}, but then expectation is conditional on $X = x$. E.g., if $Y_i = \beta_0 + \beta_1 X_i + \varepsilon_i$, then $\E[Y_i \mid X_i = x_i] = \beta_0 + \beta_1 x_i$. Unless otherwise noted, we work with a sample space conditional on $X = x$.}
+
+$\bullet$ More generally, we can work with $p$ \textit{predictors}: $x_{i, 1}, \ldots, x_{i, p}$ for each observation $i$. For simplicity, we begin with $p = 1$.
+
+$\bullet$ E.g., we can model someone's SAT score as a function of their GPA.
+\end{definition}
+
+\begin{definition}[Error]
+For observation $i \in \{1, \ldots, n\}$, let $Y_i = f(x_i) + \varepsilon_i$. We include an \textit{individualized error term} $\varepsilon_i$ so that two observations with the same $x_i$ can have different observed values of $Y_i$.
+
+$\bullet$ This is a \textit{random variable}. In practice, this value is never known.
+
+$\bullet$ We decompose $Y_i$ into a \textit{systematic part}—i.e., $f(x_i)$—and a \textit{random part}—i.e., $\varepsilon_i$.
+
+$\bullet$ E.g., Alice and Bob both have a $4.0$ GPA, but our model is flexible enough to acknowledge that they might not have the same SAT score. However, they will have the same \textit{predicted} SAT score!
+\end{definition}
+
+\begin{definition}[Linear regression]
+We assume our model is \textit{linear in the parameters}: \[Y_i = \beta_0 + \sum_{j = 1}^{p} \beta_j x_{i, j} + \varepsilon_i.\]
+
+$\bullet$ When $p = 1$, $Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i$.
+
+$\bullet$ The form $f(x_i)$ is very general and thus hard to estimate/interpret. Thus, the linearity assumption greatly simplifies our problem.\footnote{Other models exist, such as generalized additive models (GAMs), but these lose much of the interpretability that makes linear regression so powerful.}
+\end{definition}
+
+\begin{concept}
+Which of the following models are linear in their parameters?
+
+1. $Y_i = \beta x_i + \varepsilon_i$
+
+2. $Y_i = \beta_0 + \beta_1 x_i^{\beta_2} + \varepsilon_i$
+
+3. $Y_i = \beta_0 + \beta_1 x_{i, 1} + \beta_2 x_{i, 2} + \beta_3 x_{i, 1} x_{i, 2} + \varepsilon_i$
+
+4. $Y_i = \beta \sin(x_i) + \varepsilon_i$
+\end{concept}
+
+\begin{solutionbox}
+All models except $2$ are linear in their parameters. Even though $x_{i, 1} x_{i, 2}$ and $\sin(x_i)$ are not linear functions, these are functions of the predictors. We are concerned about whether the model is linear in the parameters.
+\end{solutionbox}
+
+\subsection{Simple Linear Regression}
+
+\begin{definition}[Simple linear regression]
+With $p = 1$, \[Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i.\]
+
+$\bullet$ We have an \textit{intercept} parameter and a \textit{slope} parameter with one \textit{predictor}.
+
+$\bullet$ In \textit{simple linear regression}, $p = 1$, but in \textit{multiple linear regression}, $p > 1$.
+\end{definition}
+
+\begin{definition}[Population regression function]
+Assuming that $\E[\varepsilon_i] = 0$, \[\mu_{Y_i} = \E[Y_i] = \beta_0 + \beta_1 x_i.\]
+\end{definition}
+
+\begin{definition}[Intercept term]
+$\beta_0$ is the \textit{expected} outcome when $x_i = 0$.
+\end{definition}
+
+\begin{definition}[Slope term]
+$\beta_1$ is the \textit{expected} change in $Y_i$ associated with a one-unit increase in $x_i$.\footnote{Importantly, this is not necessarily causal, but this is sometimes referred to as the \enquote{effect} of $x_i$ on $Y_i$.}
+\end{definition}
+
+\begin{definition}[Variance term]
+$\sigma^2_i$ is the \textit{variance} in the error and thus the outcome (i.e., $\sigma^2_i = \Var[\varepsilon_i] = \Var[Y_i]$).
+\end{definition}
+
+\begin{concept}
+How many unknown parameters are there in simple linear regression? Assume constant variance (i.e., homoskedasticity).
+\end{concept}
+
+\begin{solutionbox}
+There are 3: $\beta_0$, $\beta_1$, and $\sigma^2$. Importantly, if $\beta_0$ and $\beta_1$ were known, then $\varepsilon_i$ would be deterministic once $Y_i$ crystallizes (but $\sigma^2$ would still be unknown).
+\end{solutionbox}
+
+% Section: Inference
+\section{Inference}
+
+\begin{idea}
+A common theme in statistics is the presence of \textit{unknown values}—e.g., the intercept and slope terms. We can \textit{infer} the best estimates from the data, but we must consider that our observed data are random.
+\end{idea}
+
+\subsection{Assumptions}
+
+\begin{definition}[Existence]
+$\Var[\varepsilon_i] < \infty$ for all $i \in \{1, \ldots, n\}$.
+
+$\bullet$ I.e., the variance is finite.
+\end{definition}
+
+% \begin{concept}
+% What does $\Var[\varepsilon_i] < \infty$ imply about $\E[\varepsilon_i]$?
+% \end{concept}
+
+% \begin{solutionbox}
+% $\Var[\varepsilon_i] < \infty \implies \E[\varepsilon_i] < \infty$ because $\Var[\varepsilon_i] = \E[X^2] - (\E[X])^2$.
+% \end{solutionbox}
+
+\begin{definition}[Linearity]
+$\E[Y_i] = \beta_0 + \beta_1 x_i$, which implies that $\E[\varepsilon_i] = 0$ for all $i \in \{1, \ldots, n\}$.
+
+$\bullet$ I.e., the population regression function holds.
+\end{definition}
+
+\begin{definition}[Independence]
+$\varepsilon_i \indep \varepsilon_j$ for all $i \neq j$.
+
+$\bullet$ I.e., the errors and thus the outcomes are independent.
+\end{definition}
+
+\begin{definition}[Homoskedasticity]
+$\Var[\varepsilon_i] = \sigma^2$ for all $i \in \{1, \ldots, n\}$.
+
+$\bullet$ I.e., the variance is the same for all errors and thus outcomes.
+\end{definition}
+
+\begin{definition}[Normality]
+$\varepsilon_i \sim \N(0, \sigma^2)$ for all $i \in \{1, \ldots, n\}$.
+
+$\bullet$ I.e., the errors and thus the outcomes are Normal.
+\end{definition}
+
+\begin{definition}[ELIHN]
+Together, the five main assumptions can be summarized as $\varepsilon_i \simiid \N(0, \sigma^2)$, with $\sigma^2 < \infty$.
+
+$\bullet$ \enquote{Eli H. Normal} is a good way to remember this.
+
+$\bullet$ Importantly, the assumptions are ordered from \textit{most to least important}. Much of this course will be dedicated to breaking down these assumptions!
+
+$\bullet$ Related, the fifth assumption of Normality is \textit{not} needed for OLS point estimation but is often used for exact finite-sample inference.
+\end{definition}
+
+% \begin{concept}
+% Your friend performs simple linear regression and estimates $\beta_0$ and $\beta_1$ via OLS. Afterwards, they realize the data are not Normal but meet the other 4 assumptions. Do you trust their estimates?
+% \end{concept}
+
+% \begin{solutionbox}
+% Yes. The assumption of Normality is not needed for OLS point estimation (i.e., the mathematical derivation below only requires the first 4 assumptions).
+% \end{solutionbox}
+
+\subsection{Prediction}
+
+\begin{definition}[Predicted outcome]
+Suppose that we have $\hat{\beta}_0$, $\hat{\beta}_1$, and $\hat{\sigma}^2$ as estimates from our data. Naturally, we calculate our \textit{predicted outcome} as \[\hat{Y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i.\]
+\end{definition}
+
+\begin{definition}[Residual]
+\[e_i = Y_i - \hat{Y}_i\] is the \textit{residual} (i.e., the difference in \textit{predicted} and \textit{observed} outcomes).
+
+$\bullet$ This is \textit{observed} once $Y_i$ crystallizes.
+
+$\bullet$ Equivalently, this can be denoted as $\hat{\varepsilon}_i$ to emphasize that it's an estimator for $\varepsilon_i$.
+\end{definition}
+
+\begin{concept}
+We use simple linear regression to model someone's SAT score (i.e., $Y_i \in [400, 1600]$) as a function of their GPA (i.e., $x_i \in [0.0, 4.0]$). From the data, we calculate $\hat{\beta}_0 = 400$ and $\hat{\beta}_1 = 300$. What is the predicted outcome for Alice if she has a 4.0 GPA? If she actually scored a 1500, what is her residual?
+\end{concept}
+
+\begin{solutionbox}
+Our model is $\hat{Y}_i = 400 + 300 x_i$, so $\hat{Y}_{\text{Alice}} = 400 + 300 (4.0) = 1600$. Thus, $e_{\text{Alice}} = 1500 - 1600 = -100$.
+\end{solutionbox}
+
+\subsection{Ordinary Least-Squares (OLS) Estimation}
+
+\begin{definition}[Objective function]
+What we want to \textit{minimize} to form our estimators.
+
+$\bullet$ In this course, we'll often use \textit{sum of squares errors} (SSE).\footnote{This term is confusing because it uses \textit{residuals}—which are observable—not \textit{errors}—which are unobservable. Equivalently, this is sometimes denoted as \textit{residual sum of squares} (RSS).}
+
+$\bullet$ The \textit{normal equations} are the derivatives set to $0$: $\frac{\partial}{\partial \beta_0} \SSE = 0$, $\frac{\partial}{\partial \beta_1} \SSE = 0$.
+\end{definition}
+
+\begin{definition}[Sum of squares errors (SSE)]
+\[\SSE = \sum_{i = 1}^{n} (Y_i - \hat{Y}_i)^2.\]
+
+$\bullet$ Since $\hat{Y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i$, we can rewrite this as \[\SSE = \sum_{i = 1}^{n} (Y_i - (\hat{\beta}_0 + \hat{\beta}_1 x_i))^2.\]
+\end{definition}
+
+\begin{concept}
+Is SSE theoretical (i.e., unobservable)?
+\end{concept}
+
+\begin{solutionbox}
+No! It can be calculated with our data (once $Y_i$ crystallizes), and it's a good way to measure how good our model is using the data at hand.
+\end{solutionbox}
+
+\begin{definition}[OLS estimators]
+$(\hat{\beta}_{0, \OLS}, \hat{\beta}_{1, \OLS}) = \arg \min_{(\beta_0, \beta_1) \in \R^2} \left( \sum_{i = 1}^{n} (Y_i - (\beta_0 + \beta_1 x_i))^2 \right)$.
+
+$\bullet$ I.e., our estimators are the values for $\beta_0$ and $\beta_1$ that \textit{minimize} SSE: \[\hat{\beta}_{1, \OLS} = \frac{\sum_{i = 1}^{n} (x_i - \bar{x})(Y_i - \bar{Y})}{\sum_{i = 1}^{n} (x_i - \bar{x})^2}\] and \[\hat{\beta}_{0, \OLS} = \bar{Y} - \hat{\beta}_{1, \OLS} \bar{x}.\footnote{See Appendix~\ref{app:ols-min}.}\]
+\end{definition}
+
+\begin{definition}[Variance estimator]
+\[\hat{\sigma}^2_{\OLS} = \frac{1}{n - 2} \sum_{i = 1}^{n} (Y_i - \hat{Y}_i)^2.\]
+
+$\bullet$ Equivalently, \[\hat{\sigma}^2_{\OLS} = \frac{1}{n - 2} \sum_{i = 1}^{n} \left( Y_i - (\hat{\beta}_{0, \OLS} + \hat{\beta}_{1, \OLS} x_i) \right)^2 = \frac{\SSE}{\df}.\]
+
+$\bullet$ Intuitively, we lose 2 \textit{degrees of freedom} since we use the data to calculate $\hat{\beta}_{0, \OLS}$ and $\hat{\beta}_{1, \OLS}$.\footnote{E.g., if I told you that we had 3 observations with $y_1 = 1$, $y_2 = 1$, and $\bar{y} = 1$, then you'd be able to determine that $y_3 = 1$, so there's no randomness (i.e., no freedom to vary) in that last observation!}
+\end{definition}
+
+\begin{concept}
+In OLS simple linear regression, what two important points must the regression line always pass through?
+\end{concept}
+
+\begin{solutionbox}
+First, $\hat{Y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i$, so if $x_i = 0$, then $\hat{Y}_i =  \hat{\beta}_0$. Therefore, one point is $(0, \hat{\beta}_0)$. Additionally, $\hat{\beta}_0 = \bar{Y} - \hat{\beta}_1 \bar{x}$, so $\hat{Y}_i = \bar{Y} - \hat{\beta}_1 \bar{x} + \hat{\beta}_1 x_i = \bar{Y} - \hat{\beta}_1 (\bar{x} - x_i)$. Thus, if $x_i = \bar{x}$, then $\hat{Y}_i = \bar{Y}$. Therefore, another point is $(\bar{x}, \bar{Y})$.
+\end{solutionbox}
+
+\subsection{Prediction Error}
+
+\begin{definition}[Sum of squares errors (SSE)]
+\[\SSE = \sum_{i = 1}^{n} (Y_i - \hat{Y}_i)^2.\]
+
+$\bullet$ This is a measure of total deviation from using our \textit{predicted outcome} $\hat{Y}_i$.
+\end{definition}
+
+\begin{definition}[Sum of squares regression (SSR)]
+\[\SSR = \sum_{i = 1}^{n} (\hat{Y}_i - \bar{Y})^2.\]
+
+$\bullet$ This is a measure of how much \enquote{better} it is to use $\hat{Y}_i$ than $\bar{Y}$ (i.e., how much error we \enquote{explain away}).
+\end{definition}
+
+\begin{definition}[Sum of squares total (SST)]
+\[\SST = \sum_{i = 1}^{n} (Y_i - \bar{Y})^2.\]
+
+$\bullet$ This is a measure of total deviation from using $\bar{Y}$ as a simple estimator.
+
+$\bullet$ Equivalently, \[\SST = \SSR + \SSE.\]
+\end{definition}
+
+\begin{definition}[$R^2$]
+$R^2$ is the proportion of the \textit{total variability} in $Y$ that is explained by the \textit{regression} of $Y$ on $X$ (i.e., when using $X$ to predict $Y$): \[R^2 = \frac{\SSR}{\SST} = \frac{\sum_{i = 1}^{n} (\hat{Y}_i - \bar{Y})^2}{\sum_{i = 1}^{n} (Y_i - \bar{Y})^2}\]
+
+$\bullet$ Equivalently, \[R^2 = 1 - \frac{\SSE}{\SST} = 1 - \frac{\sum_{i = 1}^{n} (Y_i - \hat{Y}_i)^2}{\sum_{i = 1}^{n} (Y_i - \bar{Y})^2}.\]
+
+$\bullet$ Let $r_{XY}$ be the Pearson correlation coefficient between $X$ and $Y$.\footnote{This is an estimator for $\rho = \Corr[X, Y]$.} In \textit{simple linear regression}, $R^2 = (r_{XY})^2$.
+\end{definition}
+
+% Section: Exercises
+\section{Exercises}
+
+\begin{problem}
+In linear regression, there are two important identities often used.
+
+(a) Show that $\sum_{i = 1}^{n} (x_i - \bar{x}) = 0$.\footnote{\textit{Hint}: $\sum_{i = 1}^{n} (a + b) = \sum_{i = 1}^{n} a + \sum_{i = 1}^{n} b$.}
+
+(b) Show that $\sum_{i = 1}^{n} (x_i - \bar{x}) (y_i - \bar{y}) = \sum_{i = 1}^{n} (x_i - \bar{x}) y_i$.\footnote{\textit{Hint}: A useful trick is to add and subtract by the same number (thereby adding 0). This is also true for multiplying and dividing by the same number.}
+\end{problem}
+
+\begin{solutionbox}
+(a) First, we'll show 
+\[
+\begin{aligned}
+\sum_{i = 1}^{n} (x_i - \bar{x}) &= \sum_{i = 1}^{n} x_i - \sum_{i = 1}^{n} \bar{x} && \text{by linearity} \\
+&= n \left( \frac{1}{n} \sum_{i = 1}^{n} x_i \right) - \sum_{i = 1}^{n} \bar{x} && \text{since $n \times \frac{1}{n} = 1$} \\
+&= n \bar{x} - n \bar{x} && \text{since $\bar{x} = \frac{1}{n} \sum_{i = 1}^{n} x_i$} \\
+&= 0 && \text{by simplifying}
+\end{aligned}
+\]
+
+(b)
+\[
+\begin{aligned}
+\sum_{i = 1}^{n} (x_i - \bar{x}) y_i &= \sum_{i = 1}^{n} (x_i - \bar{x}) (y_i - \bar{y} + \bar{y}) && \text{since $- \bar{y} + \bar{y} = 0$} \\
+&= \sum_{i = 1}^{n} \left( (x_i - \bar{x}) (y_i - \bar{y}) + (x_i - \bar{x}) \bar{y} \right) && \text{by distributing} \\
+&= \sum_{i = 1}^{n} (x_i - \bar{x}) (y_i - \bar{y}) + \bar{y} \sum_{i = 1}^{n} (x_i - \bar{x}) && \text{by linearity} \\
+&= \sum_{i = 1}^{n} (x_i - \bar{x}) (y_i - \bar{y}) + \bar{y} \times 0 && \text{since $\sum_{i = 1}^{n} (x_i - \bar{x}) = 0$} \\
+&= \sum_{i = 1}^{n} (x_i - \bar{x}) (y_i - \bar{y}) && \text{by simplifying}
+\end{aligned}
+\]
+\end{solutionbox}
+
+\begin{problem}
+Consider the following linear model: 
+
+\[Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i,\] where \[\varepsilon_i \simind \N(0, \sigma^2 w_i^{-1})\] for all $i \in \{1, \ldots, n\}$.
+
+The \enquote{weighted least squares} (WLS) estimators are those that minimize \[Q(\vec{\beta}) = \sum_{i = 1}^{n} w_i (Y_i - \beta_0 - \beta_1 x_i)^2.\]
+
+In what follows, it will help to define \[\bar{Y}_w = \frac{\sum_{i = 1}^{n} w_i Y_i}{\sum_{i = 1}^{n} w_i}, \ \bar{x}_w = \frac{\sum_{i = 1}^{n} w_i x_i}{\sum_{i = 1}^{n} w_i}.\footnote{Inspired by Problem 4 in \enquote{Stat 139 Midterm Exam 1, Fall 2025} by James Xenakis.}\]
+
+(a) Derive the WLS estimators of $\beta_0$ and $\beta_1$.
+
+(b) Derive the variance of $\hat{\beta}_{1, \WLS}$. It might help to first show:
+
+\begin{center}
+$\sum_{i = 1}^{n} w_i (x_i - \bar{x}_w) (Y_i - \bar{Y}_w) = \sum_{i = 1}^{n} w_i (x_i - \bar{x}_w) Y_i$.
+\end{center}
+\end{problem}
+
+\begin{solutionbox}
+{
+\scriptsize
+(a) To find where $Q(\vec{\beta}) = \sum_{i = 1}^{n} w_i (Y_i - \beta_0 - \beta_1 x_i)^2$ is minimized, we can set the partial derivatives (with respect to $\beta_0$ and $\beta_1$) equal to 0 and solve the system of equations—i.e., $\frac{\partial}{\partial \beta_0} Q(\vec{\beta}) = 0$, $\frac{\partial}{\partial \beta_1} Q(\vec{\beta}) = 0$.
+
+\[
+\begin{aligned}
+\frac{\partial}{\partial \beta_0} \left( \sum_{i = 1}^{n} w_i (Y_i - \beta_0 - \beta_1 x_i)^2 \right) &= \sum_{i = 1}^{n} \frac{\partial}{\partial \beta_0} \left( w_i (Y_i - \beta_0 - \beta_1 x_i)^2 \right) && \text{by linearity} \\
+&= \sum_{i = 1}^{n} 2 w_i (Y_i - \beta_0 - \beta_1 x_i) (-1) && \text{by chain rule} \\
+&= -2 \sum_{i = 1}^{n} w_i (Y_i - \beta_0 - \beta_1 x_i) && \text{by simplifying}
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+0 = -2 \sum_{i = 1}^{n} w_i (Y_i - \beta_0 - \beta_1 x_i) &\implies 0 = \sum_{i = 1}^{n} w_i (Y_i - \beta_0 - \beta_1 x_i) && \text{by multiplying} \\
+&\implies 0 = \sum_{i = 1}^{n} w_i Y_i - \beta_0 \sum_{i = 1}^{n} w_i - \beta_1 \sum_{i = 1}^{n} w_i x_i && \text{by linearity} \\
+&\implies \beta_0 = \frac{\sum_{i = 1}^{n} w_i Y_i - \beta_1 \sum_{i = 1}^{n} w_i x_i}{\sum_{i = 1}^{n} w_i} && \text{by solving for $\beta_0$} \\
+&\implies \beta_0 = \bar{Y}_w - \beta_1 \bar{x}_w && \text{by simplifying}
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+\frac{\partial}{\partial \beta_1} \left( \sum_{i = 1}^{n} w_i (Y_i - \beta_0 - \beta_1 x_i)^2 \right) &= \frac{\partial}{\partial \beta_1} \left( \sum_{i = 1}^{n} w_i (Y_i - (\bar{Y}_w - \beta_1 \bar{x}_w) - \beta_1 x_i)^2 \right) && \text{since $\beta_0 = \bar{Y}_w - \beta_1 \bar{x}_w$} \\
+&= \frac{\partial}{\partial \beta_1} \left( \sum_{i = 1}^{n} w_i (Y_i - \bar{Y}_w - \beta_1 (x_i - \bar{x}_w))^2 \right) && \text{by distributing} \\
+&= \sum_{i = 1}^{n} \frac{\partial}{\partial \beta_1} w_i (Y_i - \bar{Y}_w - \beta_1 (x_i - \bar{x}_w))^2 && \text{by linearity} \\
+&= \sum_{i = 1}^{n} w_i \left( 2 (Y_i - \bar{Y}_w - \beta_1 (x_i - \bar{x}_w)) (-1) (x_i - \bar{x}_w) \right) && \text{by chain rule} \\
+&= -2 \sum_{i = 1}^{n} w_i \left( (Y_i - \bar{Y}_w)(x_i - \bar{x}_w) - \beta_1 (x_i - \bar{x}_w)^2 \right) && \text{by simplifying}
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+0 = -2 \sum_{i = 1}^{n} w_i \left( (Y_i - \bar{Y}_w)(x_i - \bar{x}_w) - \beta_1 (x_i - \bar{x}_w)^2 \right) &\implies 0 = \sum_{i = 1}^{n} w_i \left( (Y_i - \bar{Y}_w)(x_i - \bar{x}_w) - \beta_1 (x_i - \bar{x}_w)^2 \right) && \text{by mult.} \\
+&\implies 0 = \sum_{i = 1}^{n} w_i (Y_i - \bar{Y}_w)(x_i - \bar{x}_w) - \beta_1 \sum_{i = 1}^{n} w_i (x_i - \bar{x}_w)^2 && \text{by lin.} \\
+&\implies \beta_1 = \frac{\sum_{i = 1}^{n} w_i (Y_i - \bar{Y}_w)(x_i - \bar{x}_w)}{\sum_{i = 1}^{n} w_i (x_i - \bar{x}_w)^2} && \text{by alg.}
+\end{aligned}
+\]
+
+Thus, $\hat{\beta}_{0, \WLS} = \bar{Y}_w - \hat{\beta}_{1, \WLS} \bar{x}_w$ and $\hat{\beta}_{1, \WLS} = \frac{\sum_{i = 1}^{n} w_i (Y_i - \bar{Y}_w)(x_i - \bar{x}_w)}{\sum_{i = 1}^{n} w_i (x_i - \bar{x}_w)^2}$.
+
+(b) First, let's show $\sum_{i = 1}^{n} w_i (x_i - \bar{x}_w) (Y_i - \bar{Y}_w) = \sum_{i = 1}^{n} w_i (x_i - \bar{x}_w) Y_i$.
+
+\[
+\begin{aligned}
+\sum_{i = 1}^{n} w_i (x_i - \bar{x}_w) Y_i &= \sum_{i = 1}^{n} w_i (x_i - \bar{x}_w) (Y_i - \bar{Y}_w + \bar{Y}_w) && \text{since $- \bar{Y}_w + \bar{Y}_w = 0$} \\
+&= \sum_{i = 1}^{n} \left( w_i (x_i - \bar{x}_w) (Y_i - \bar{Y}_w) + w_i (x_i - \bar{x}_w) \bar{Y}_w \right) && \text{by distributing} \\
+&= \sum_{i = 1}^{n} w_i (x_i - \bar{x}_w) (Y_i - \bar{Y}_w) + \bar{Y}_w \sum_{i = 1}^{n} w_i (x_i - \bar{x}_w) && \text{by linearity} \\
+&= \sum_{i = 1}^{n} w_i (x_i - \bar{x}_w) (Y_i - \bar{Y}_w) + \bar{Y}_w \times 0 && \text{since $\sum_{i = 1}^{n} w_i (x_i - \bar{x}_w) = 0$} \\
+&= \sum_{i = 1}^{n} w_i (x_i - \bar{x}_w) (Y_i - \bar{Y}_w) && \text{by simplifying}
+\end{aligned}
+\]
+
+Next, let's find $\Var[\hat{\beta}_{1, \WLS}]$.
+
+\[
+\begin{aligned}
+\Var[\hat{\beta}_{1, \WLS}] &= \Var \left[ \frac{\sum_{i = 1}^{n} w_i (x_i - \bar{x}_w) (Y_i - \bar{Y}_w)}{\sum_{i = 1}^{n} w_i (x_i - \bar{x}_w)^2} \right] && \text{by substituting} \\
+&= \left( \frac{1}{\sum_{i = 1}^{n} w_i (x_i - \bar{x}_w)^2} \right)^2 \Var \left[ \sum_{i = 1}^{n} w_i (x_i - \bar{x}_w) (Y_i - \bar{Y}_w) \right] && \text{by bilinearity} \\
+&= \left( \frac{1}{\sum_{i = 1}^{n} w_i (x_i - \bar{x}_w)^2} \right)^2 \Var \left[ \sum_{i = 1}^{n} w_i (x_i - \bar{x}_w) Y_i \right] && \text{by identity shown above} \\
+&= \left( \frac{1}{\sum_{i = 1}^{n} w_i (x_i - \bar{x}_w)^2} \right)^2 \sum_{i = 1}^{n} \Var \left[ w_i (x_i - \bar{x}_w) Y_i \right] && \text{by independence} \\
+&= \left( \frac{1}{\sum_{i = 1}^{n} w_i (x_i - \bar{x}_w)^2} \right)^2 \sum_{i = 1}^{n} (w_i (x_i - \bar{x}_w))^2 \Var[Y_i] && \text{by bilinearity} \\
+&= \left( \frac{1}{\sum_{i = 1}^{n} w_i (x_i - \bar{x}_w)^2} \right)^2 \sum_{i = 1}^{n} (w_i (x_i - \bar{x}_w))^2 (\sigma^2 w_i^{-1}) && \text{since $\Var[\varepsilon_i] = \Var[Y_i] = \sigma^2 w_i^{-1}$} \\
+&= \frac{\sigma^2}{\sum_{i = 1}^{n} w_i (x_i - \bar{x}_w)^2} && \text{by simplifying}
+\end{aligned}
+\]
+}
+\end{solutionbox}
+
+% Appendix
+\appendix
+\section{Proofs}
+
+\subsection{OLS Estimators Minimize SSE}
+\label{app:ols-min}
+
+\begin{proof}
+Let $\SSE = \sum_{i = 1}^{n} (Y_i - (\hat{\beta}_0 + \hat{\beta}_1 x_i))^2$. We want to show that $\hat{\beta}_{1, \OLS} = \frac{\sum_{i = 1}^{n} (x_i - \bar{x})(Y_i - \bar{Y})}{\sum_{i = 1}^{n} (x_i - \bar{x})^2}$ and $\hat{\beta}_{0, \OLS} = \bar{Y} - \hat{\beta}_{1, \OLS} \bar{x}$ are the arguments that minimize SSE.
+
+To find where SSE is minimized, we can set the partial derivatives (with respect to $\beta_0$ and $\beta_1$) equal to 0 and solve the system of equations—i.e., $\frac{\partial}{\partial \beta_0} \SSE = 0$, $\frac{\partial}{\partial \beta_1} \SSE = 0$.
+
+{
+\scriptsize
+\[
+\begin{aligned}
+\frac{\partial}{\partial \beta_0} \left( \sum_{i = 1}^{n} (Y_i - (\beta_0 + \beta_1 x_i))^2 \right) &= \frac{\partial}{\partial \beta_0} \left( \sum_{i = 1}^{n} (Y_i - \beta_0 - \beta_1 x_i)^2 \right) && \text{by distributing} \\
+&= \sum_{i = 1}^{n} \frac{\partial}{\partial \beta_0} (Y_i - \beta_0 - \beta_1 x_i)^2 && \text{by linearity} \\
+&= \sum_{i = 1}^{n} 2 (Y_i - \beta_0 - \beta_1 x_i) (-1) && \text{by chain rule} \\
+&= -2 \sum_{i = 1}^{n} (Y_i - \beta_0 - \beta_1 x_i) && \text{by simplifying}
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+0 = -2 \sum_{i = 1}^{n} (Y_i - \beta_0 - \beta_1 x_i) &\implies 0 = \sum_{i = 1}^{n} (Y_i - \beta_0 - \beta_1 x_i) && \text{by multiplying} \\
+&\implies 0 = \sum_{i = 1}^{n} Y_i - n \beta_0 - \beta_1 \sum_{i = 1}^{n} x_i && \text{by linearity} \\
+&\implies \beta_0 = \bar{Y} - \beta_1 \bar{x} && \text{by solving for $\beta_0$}
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+\frac{\partial}{\partial \beta_1} \left( \sum_{i = 1}^{n} (Y_i - (\beta_0 + \beta_1 x_i))^2 \right) &= \frac{\partial}{\partial \beta_1} \left( \sum_{i = 1}^{n} (Y_i - (\bar{Y} - \beta_1 \bar{x} + \beta_1 x_i))^2 \right) && \text{since $\beta_0 = \bar{Y} - \beta_1 \bar{x}$} \\
+&= \frac{\partial}{\partial \beta_1} \left( \sum_{i = 1}^{n} (Y_i - \bar{Y} - \beta_1 (x_i - \bar{x}))^2 \right) && \text{by distributing} \\
+&= \sum_{i = 1}^{n} \frac{\partial}{\partial \beta_1} (Y_i - \bar{Y} - \beta_1 (x_i - \bar{x}))^2 && \text{by linearity} \\
+&= \sum_{i = 1}^{n} 2 (Y_i - \bar{Y} - \beta_1 (x_i - \bar{x})) (-1) (x_i - \bar{x}) && \text{by chain rule} \\
+&= -2 \sum_{i = 1}^{n} \left( (Y_i - \bar{Y})(x_i - \bar{x}) - \beta_1 (x_i - \bar{x})^2 \right) && \text{by simplifying}
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+0 = -2 \sum_{i = 1}^{n} \left( (Y_i - \bar{Y})(x_i - \bar{x}) - \beta_1 (x_i - \bar{x})^2 \right) &\implies 0 = \sum_{i = 1}^{n} \left( (Y_i - \bar{Y})(x_i - \bar{x}) - \beta_1 (x_i - \bar{x})^2 \right) && \text{by multiplying} \\
+&\implies 0 = \sum_{i = 1}^{n} (Y_i - \bar{Y})(x_i - \bar{x}) - \beta_1 \sum_{i = 1}^{n} (x_i - \bar{x})^2 && \text{by linearity} \\
+&\implies \beta_1 = \frac{\sum_{i = 1}^{n} (Y_i - \bar{Y})(x_i - \bar{x})}{\sum_{i = 1}^{n} (x_i - \bar{x})^2} && \text{by algebra}
+\end{aligned}
+\]
+}
+
+It can be shown that these critical points are global minima via the second derivative test. Thus, $\hat{\beta}_{0, \OLS} = \bar{Y} - \hat{\beta}_{1, \OLS} \bar{x}$ and $\hat{\beta}_{1, \OLS} = \frac{\sum_{i = 1}^{n} (Y_i - \bar{Y})(x_i - \bar{x})}{\sum_{i = 1}^{n} (x_i - \bar{x})^2}$.
+\end{proof}
+
+\end{document}

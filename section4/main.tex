@@ -1,0 +1,659 @@
+% Define important features for the document
+\documentclass[12pt,oneside]{article}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+
+% Import packages
+\usepackage[margin = 1in]{geometry}
+\usepackage{amsfonts, amsmath, amssymb, amsthm, calc, centernot, color, csquotes, dsfont, enumitem, environ, fancyhdr, fontawesome5, graphicx, hyperref, listings, marvosym, mathrsfs, mathtools, tcolorbox, titlesec, upquote, xcolor}
+\usepackage[flushmargin,hang]{footmisc}
+\tcbuselibrary{breakable}
+
+% Define toggles
+\newif\ifsolutions
+\solutionstrue % Toggle for instructor version
+% \solutionsfalse % Toggle for student version
+
+% Define size and spacing of section and subsection
+\titleformat{\section}
+  {\normalfont\large\bfseries}
+  {\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\normalsize\bfseries}
+  {\thesubsection}{1em}{}
+\titlespacing*{\section}{0pt}{6pt}{6pt} % ({left}{before}{after})
+\titlespacing*{\subsection}{0pt}{6pt}{6pt} % ({left}{before}{after})
+
+% Define commands
+\newcommand{\indep}{\perp\!\!\!\perp}
+\newcommand{\notindep}{\mathrel{\not\!\perp\!\!\!\perp}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\Cov}{\text{Cov}}
+\newcommand{\Corr}{\text{Corr}}
+\newcommand{\SD}{\text{SD}}
+\newcommand{\SE}{\text{SE}}
+\newcommand{\Bias}{\text{Bias}}
+\newcommand{\MSE}{\text{MSE}}
+\newcommand{\Risk}{\text{Risk}}
+\newcommand{\Like}{\mathcal{L}}
+\newcommand{\boot}{\text{boot}}
+\newcommand{\strat}{\text{strat}}
+\newcommand{\supp}{\text{supp}}
+\newcommand{\MLE}{\text{MLE}}
+\newcommand{\MoM}{\text{MoM}}
+\newcommand{\MOM}{\text{MOM}}
+\newcommand{\OLS}{\text{OLS}}
+\newcommand{\WLS}{\text{WLS}}
+\newcommand{\LS}{\text{LS}}
+\newcommand{\MAP}{\text{MAP}}
+\newcommand{\MAE}{\text{MAE}}
+\newcommand{\LP}{\text{LP}}
+\newcommand{\HT}{\text{HT}}
+\newcommand{\JS}{\text{JS}}
+\newcommand{\RB}{\text{RB}}
+\newcommand{\UB}{\text{UB}}
+\newcommand{\DIM}{\text{DIM}}
+\newcommand{\PATE}{\text{PATE}}
+\newcommand{\SATE}{\text{SATE}}
+\newcommand{\VIF}{\text{VIF}}
+\newcommand{\GVIF}{\text{GVIF}}
+\newcommand{\AIC}{\text{AIC}}
+\newcommand{\BIC}{\text{BIC}}
+\newcommand{\LASSO}{\text{LASSO}}
+\newcommand{\PSS}{\text{PSS}}
+\newcommand{\CV}{\text{CV}}
+\newcommand{\logit}{\text{logit}}
+\newcommand{\odds}{\text{odds}}
+\newcommand{\OR}{\text{OR}}
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Bern}{\text{Bern}}
+\newcommand{\Bin}{\text{Bin}}
+\newcommand{\Beta}{\text{Beta}}
+\newcommand{\Gam}{\text{Gamma}}
+\newcommand{\Expo}{\text{Expo}}
+\newcommand{\Pois}{\text{Pois}}
+\newcommand{\Unif}{\text{Unif}}
+\newcommand{\DUnif}{\text{DUnif}}
+\newcommand{\Geom}{\text{Geom}}
+\newcommand{\FS}{\text{FS}}
+\newcommand{\NBin}{\text{NBin}}
+\newcommand{\HGeom}{\text{HGeom}}
+\newcommand{\Mult}{\text{Mult}}
+\newcommand{\MVN}{\text{MVN}}
+\newcommand{\IG}{\text{IG}}
+\newcommand{\Tweedie}{\text{Tweedie}}
+\newcommand{\simiid}{\overset{\text{i.i.d.}}{\sim}}
+\newcommand{\simind}{\overset{\text{ind.}}{\sim}}
+\newcommand{\simnull}{\overset{H_0}{\sim}}
+\newcommand{\simapprox}{\overset{\cdot}{\sim}}
+\newcommand{\simnullapprox}{\overset{H_0}{\simapprox}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\indic}{\mathds{1}}
+\newcommand{\iid}{\text{i.i.d.}}
+\newcommand{\Ind}{\text{Ind}}
+\newcommand{\SSq}{\text{SSq}}
+\newcommand{\trace}{\text{trace}}
+\newcommand{\rank}{\text{rank}}
+\newcommand{\diag}{\text{diag}}
+\newcommand{\adj}{\text{adj}}
+\newcommand{\SSE}{\text{SSE}}
+\newcommand{\SST}{\text{SST}}
+\newcommand{\SSR}{\text{SSR}}
+\newcommand{\GLS}{\text{GLS}}
+\newcommand{\df}{\text{df}}
+\newcommand{\ti}{\text{time}}
+\newcommand{\outcome}{\text{outcome}}
+\newcommand{\exposure}{\text{exposure}}
+\newcommand{\NA}{\text{NA}}
+\newcommand{\cp}{\text{cp}}
+\newcommand{\tip}{\textbf{\faLightbulb}: }
+\newcommand{\warning}{\textbf{\Biohazard}: }
+\newcommand{\blank}[1][4cm]{\underline{\hspace{#1}}}
+
+% Define theorem-style environment (italic body, bold header)
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+
+% Define definition-style environment (upright body, bold header)
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{problem}{\faPen \ Problem}
+\newtheorem{concept}{\faPen \ Concept Checker}
+\newtheorem{challenge}{\faFire \ Challenge}
+\newtheorem{activity}{\faDiceThree \ Activity}
+
+% Define idea-style environment (unnumbered definition)
+\newtheorem*{idea}{Idea}
+
+% Define remark-style environment (upright body, italic header)
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+% Define environment for solution box
+\newsavebox{\solutioncontentbox}
+\NewEnviron{solutionbox}[1][Solution]{
+  \sbox{\solutioncontentbox}{
+    \begin{minipage}{\dimexpr\linewidth-2\fboxsep\relax}
+      \BODY
+    \end{minipage}
+  }
+  \ifsolutions
+    \begin{tcolorbox}[
+      title=#1,
+      colback=gray!5,
+      colframe=black,
+      breakable
+    ]
+      \BODY
+    \end{tcolorbox}
+  \else
+    \begin{tcolorbox}[
+      title=#1,
+      colback=white,
+      colframe=black,
+      breakable,
+      height=\dimexpr\ht\solutioncontentbox+\dp\solutioncontentbox+1cm\relax
+    ]
+    \end{tcolorbox}
+  \fi
+}
+
+% Define environment for code chunk
+\definecolor{codegray}{RGB}{245,245,245}
+\definecolor{commentgreen}{RGB}{0,128,0}
+\definecolor{keywordblue}{RGB}{0,0,180}
+\lstset{
+    language=R,
+    basicstyle=\ttfamily\small,
+    backgroundcolor=\color{codegray},
+    commentstyle=\color{commentgreen},
+    keywordstyle=\color{black},
+    stringstyle=\color{red!70!black},
+    showstringspaces=false,
+    frame=single,
+    rulecolor=\color{gray!30},
+    breaklines=true,
+    columns=fullflexible,
+    keepspaces=true,
+    xleftmargin=0.5em,
+    framexleftmargin=0.5em,
+    aboveskip=0.8em,
+    belowskip=0.8em
+}
+
+% Define environment for code output
+\lstnewenvironment{routput}
+{
+    \lstset{
+        language={},
+        basicstyle=\ttfamily\small,
+        backgroundcolor=\color{codegray},
+        frame=single,
+        rulecolor=\color{gray!30},
+        breaklines=true,
+        columns=fullflexible,
+        keepspaces=true,
+        showstringspaces=false,
+        upquote=true,
+        xleftmargin=0.5em,
+        framexleftmargin=0.5em,
+        literate={}
+    }
+}
+{}
+
+% Begin document
+\begin{document}
+\pagestyle{fancy}
+\fancyhead[L]{STAT 139: Introduction to Linear Models}
+\fancyhead[R]{Fall 2026}
+\begin{center}
+\bf \Large
+Section 4: Normality Assumption and $t$-Test \\[0.5em]
+\normalsize
+STAT 139 Teaching Team
+\end{center}
+
+% Section: Introduction
+\section{Introduction}
+
+\subsection{Logistics}
+
+Welcome! The goal of our weekly section is to review content from lecture, with emphasis on big-picture intuition, mathematical derivation, and hands-on practice.
+
+Specifically, we aim for section to be interactive, well-paced, inclusive, and fun! Please do not hesitate to reach out if you have any questions/feedback!
+
+\subsection{Office Hours}
+
+$\bullet$ See Canvas for the most accurate information!
+
+\subsection{Attendance}
+
+$\bullet$ Please notify the Teaching Fellow (TF) if your attendance hasn't been taken!
+
+% Section: Adding the Normality Assumption
+\section{Adding the Normality Assumption}
+
+\begin{idea}
+We began with only four assumptions, but the fifth assumption of \textit{Normality} allows us to extend our inference, especially when we have a limited sample size and cannot appeal to the Central Limit Theorem.
+\end{idea}
+
+\subsection{Point Estimation for Parameters}
+
+\begin{definition}[ELIH]
+We begin with the four assumptions of \textit{existence}, \textit{linearity}, \textit{independence}, and \textit{homoskedasticity}: \[\Var[\varepsilon_i] < \infty,\] \[\E[Y_i] = \beta_0 + \beta_1 x_i,\] \[\varepsilon_i \indep \varepsilon_j,\] and \[\Var[\varepsilon_i] = \sigma^2\] for all $i, j \in \{1, \ldots, n\}$ and $i \neq j$.
+\end{definition}
+
+\begin{definition}[OLS estimators]
+$(\hat{\beta}_{0, \OLS}, \hat{\beta}_{1, \OLS}) = \arg \min_{(\beta_0, \beta_1) \in \R^2} \left( \sum_{i = 1}^{n} (Y_i - (\beta_0 + \beta_1 x_i))^2 \right)$, which can be derived under ELIH: \[\hat{\beta}_{1, \OLS} = \frac{\sum_{i = 1}^{n} (x_i - \bar{x})(Y_i - \bar{Y})}{\sum_{i = 1}^{n} (x_i - \bar{x})^2}\] and \[\hat{\beta}_{0, \OLS} = \bar{Y} - \hat{\beta}_{1, \OLS} \bar{x}.\]
+\end{definition}
+
+\begin{definition}[Gauss-Markov Theorem]
+Under ELIH, the OLS estimators are \textit{optimal} within the class of linear unbiased estimators. 
+
+$\bullet$ I.e., they are BLUE: best linear unbiased estimators.
+\end{definition}
+
+\begin{definition}[ELIHN]
+When we add \textit{normality}, the five main assumptions can be summarized as \[\varepsilon_i \simiid \N(0, \sigma^2),\] with $\sigma^2 < \infty$ for all $i \in \{1, \ldots, n\}$. Equivalently, \[Y_i \simind \N(\beta_0 + \beta_1 x_i, \sigma^2).\]
+
+$\bullet$ Normality is \textit{not} needed for OLS point estimation but gives exact finite-sample distributions for \textit{hypothesis tests} and \textit{confidence intervals}.\footnote{Unless otherwise noted, we will assume ELIHN.}
+\end{definition}
+
+\begin{definition}[OLS-MLE connection]
+Under ELIHN, the OLS estimators for $\beta_0$ and $\beta_1$ are the maximum likelihood estimators (MLEs): \[\hat{\beta}_{1, \MLE} = \frac{\sum_{i = 1}^{n} (x_i - \bar{x})(Y_i - \bar{Y})}{\sum_{i = 1}^{n} (x_i - \bar{x})^2}\] and \[\hat{\beta}_{0, \MLE} = \bar{Y} - \hat{\beta}_{1, \MLE} \bar{x}.\footnote{Unless otherwise noted, $\hat{\beta}_{1}$ refers to $\hat{\beta}_{1, \OLS} = \hat{\beta}_{1, \MLE}$ and $\hat{\beta}_{0}$ refers to $\hat{\beta}_{0, \OLS} = \hat{\beta}_{0, \MLE}$.}\]
+
+$\bullet$ However, \[\hat{\sigma}^2_{\MLE} = \frac{1}{n} \sum_{i = 1}^{n} (Y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i)^2,\] which is \textit{not} equal to \[\hat{\sigma}^2_{\OLS} = \frac{1}{n - 2} \sum_{i = 1}^{n} (Y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i)^2.\footnote{See Appendix~\ref{app:ols-mle}.}\]
+\end{definition}
+
+\begin{concept}
+Which estimator is unbiased: $\hat{\sigma}^2_{\MLE}$ or $\hat{\sigma}^2_{\OLS}$?
+\end{concept}
+
+\begin{solutionbox}
+$\hat{\sigma}^2_{\OLS}$ is an unbiased estimator while $\hat{\sigma}^2_{\MLE}$ is not. Recall that $\frac{n - 2}{\sigma^2} \hat{\sigma}^2_{\OLS} \sim \chi^{2}_{n - 2}$. Thus, $\E[\frac{n - 2}{\sigma^2} \hat{\sigma}^2_{\OLS}] = n - 2$ by expectation of chi-squared, and $\E[\frac{n - 2}{\sigma^2} \hat{\sigma}^2_{\OLS}] = \frac{n - 2}{\sigma^2} \E[\hat{\sigma}^2_{\OLS}]$ by linearity, so $\E[\hat{\sigma}^2_{\OLS}] = \sigma^2$ by algebra.
+\end{solutionbox}
+
+\subsection{$t$-Based Inference for Parameters}
+
+\begin{definition}[Distributions]
+Under ELIHN, we have the following distributions for our estimators: \[\hat{\beta}_{1} \sim \N \left( \beta_1, \frac{\sigma^2}{s_{xx}} \right),\] \[\hat{\beta}_{0} \sim \N \left( \beta_0, \sigma^2 \left( \frac{1}{n} + \frac{\bar{x}^2}{s_{xx}} \right) \right),\] and \[\frac{n - 2}{\sigma^2} \hat{\sigma}^2_{\OLS} \sim \chi^2_{n - 2}.\]
+\end{definition}
+
+\begin{concept}
+Assume that $\sigma^2$ is unknown. Can we use the distribution of $\hat{\beta}_{1}$ to find a $95\%$ confidence interval for $\beta_{1}$?
+\end{concept}
+
+\begin{solutionbox}
+We know that $\hat{\beta}_{1} \sim \N \left( \beta_1, \frac{\sigma^2}{s_{xx}} \right)$, so if $\sigma^2$ were known, then we could construct a CI centered at $\hat{\beta}_1$. Using $z_{0.975} = 1.96$, we'd have $\hat{\beta}_{1} \pm 1.96 \times \sqrt{\frac{\sigma^2}{s_{xx}}}$. However, we don't know $\sigma^2$, which is why we must plug in an estimator like $\hat{\sigma}^2_{\OLS}$. This changes the distribution to $t$ instead of Normal!
+\end{solutionbox}
+
+\begin{definition}[Hypothesis test for slope]
+To test $H_0: \beta_1 = 0$ vs. $H_A: \beta_1 \neq 0$, we use \[T = \frac{\hat{\beta}_{1} - 0}{\hat{\sigma}_{\OLS} \sqrt{\frac{1}{s_{xx}}}} \simnull t_{n - 2}\] as our \textit{test statistic} (i.e., its \textit{exact} distribution is known under $H_0$).
+\end{definition}
+
+\begin{concept}
+Suppose that instead we wanted to test $H_0: \beta_1 = 139$ vs. $H_A: \beta_1 \neq 139$. What test statistic would we use? What would its distribution be under $H_0$?
+\end{concept}
+
+\begin{solutionbox}
+To test $H_0: \beta_1 = 139$ vs. $H_A: \beta_1 \neq 139$, we would use $T = \frac{\hat{\beta}_{1} - 139}{\hat{\sigma}_{\OLS} \sqrt{\frac{1}{s_{xx}}}} \simnull t_{n - 2}$. Recall that $\hat{\beta}_{1} \sim \N \left( \beta_1, \frac{\sigma^2}{s_{xx}} \right)$, so $\frac{\hat{\beta}_{1} - \beta_1}{\sigma / \sqrt{s_{xx}}} \sim \N(0, 1)$ by standardizing. Additionally, $\frac{n - 2}{\sigma^2} \hat{\sigma}^2_{\OLS} \sim \chi^2_{n - 2}$, with $\frac{n - 2}{\sigma^2} \hat{\sigma}^2_{\OLS} \indep \frac{\hat{\beta}_{1} - \beta_1}{\sigma / \sqrt{s_{xx}}}$. Thus, for all values of $\beta_1$, $\frac{\hat{\beta}_{1} - \beta_1}{\sigma / \sqrt{s_{xx}}} \div \sqrt{\frac{n - 2}{\sigma^2} \hat{\sigma}^2_{\OLS} / (n - 2)} = \frac{\hat{\beta}_{1} - \beta_1}{\sigma / \sqrt{s_{xx}}} \div \frac{\hat{\sigma}_{\OLS}}{\sigma} = \frac{\hat{\beta}_{1} - \beta_1}{\hat{\sigma}_{\OLS} \sqrt{1 / s_{xx}}} \sim t_{n - 2}$ by the story of the $t$.
+\end{solutionbox}
+
+
+\begin{definition}[Confidence interval for slope]
+Our $100 (1 - \alpha) \%$ confidence interval for $\beta_1$ is \[\hat{\beta}_{1} \pm t_{1 - \frac{\alpha}{2}, n - 2} \times \hat{\sigma}_{\OLS} \sqrt{1 / s_{xx}}.\]
+\end{definition}
+
+\begin{definition}[Hypothesis test for intercept]
+To test $H_0: \beta_0 = 0$ vs. $H_A: \beta_0 \neq 0$, we use \[T = \frac{\hat{\beta}_{0} - 0}{\hat{\sigma}_{\OLS} \sqrt{\frac{1}{n} + \frac{\bar{x}^2}{s_{xx}}}} \simnull t_{n - 2}\] as our \textit{test statistic} (i.e., its \textit{exact} distribution is known under $H_0$).
+\end{definition}
+
+\begin{definition}[Confidence interval for intercept]
+Our $100 (1 - \alpha) \%$ confidence interval for $\beta_0$ is \[\hat{\beta}_{0} \pm t_{1 - \frac{\alpha}{2}, n - 2} \times \hat{\sigma}_{\OLS} \sqrt{\frac{1}{n} + \frac{\bar{x}^2}{s_{xx}}}.\]
+\end{definition}
+
+\begin{concept}
+We use $t_{n - 2}$ (and multiply by $\frac{1}{n - 2}$ in the formula for $\hat{\sigma}^{2}_{\OLS}$) because we lose $2$ degrees of freedom. Why? Suppose that we observe $y_1 = 1$ and $y_2 = 1$, with $n = 3$. If we tell you that $\bar{y} = 1$, then what must $y_3$ be?
+\end{concept}
+
+\begin{solutionbox}
+Deterministically, $y_3 = 1$—it's no longer random, so we lose a degree of freedom. To calculate $\hat{\sigma}^{2}_{\OLS}$, notice that we must insert values for $\hat{\beta}_0$ and $\hat{\beta}_1$, so we're \enquote{double dipping} in the data, losing $2$ degrees of freedom.
+\end{solutionbox}
+
+\subsection{Point Estimation for Responses}
+
+\begin{definition}[Point estimator]
+Suppose that we're interested in the response $Y$ at some predictor value $X = x_0$. Our \textit{best guess} is \[\hat{\mu}_{Y \mid X = x_0} = \hat{\beta}_0 + \hat{\beta}_1 x_0.\]
+\end{definition}
+
+\subsection{$t$-Based Inference for Responses}
+
+\begin{definition}[Population mean confidence interval]
+We want to find a confidence interval for the \textit{population mean response} at some predictor value—i.e., $\mu_{Y \mid X = x_0} = \E[Y \mid X = x_0]$.
+
+$\bullet$ E.g., what is the average height of children whose midparent height is 69.21 inches?
+
+$\bullet$ Our $100 (1 - \alpha) \%$ confidence interval for $\mu_{Y \mid X = x_0}$ is \[(\hat{\beta}_{0} + \hat{\beta}_{1} x_0) \pm t_{1 - \frac{\alpha}{2}, n - 2} \times \hat{\sigma}_{\OLS} \sqrt{\frac{1}{n} + \frac{(x_0 - \bar{x})^2}{s_{xx}}}.\]
+\end{definition}
+
+\begin{definition}[Single observation prediction interval]
+We want to find a prediction interval for a \textit{new response} at some predictor value—i.e., $Y_0 = Y \mid X = x_0$.
+
+$\bullet$ E.g., what is the predicted height of a child whose midparent height is 69.21 inches?
+
+$\bullet$ Our $100 (1 - \alpha) \%$ prediction interval for $Y_0$ is \[(\hat{\beta}_{0} + \hat{\beta}_{1} x_0) \pm t_{1 - \frac{\alpha}{2}, n - 2} \times \hat{\sigma}_{\OLS} \sqrt{1 + \frac{1}{n} + \frac{(x_0 - \bar{x})^2}{s_{xx}}}.\]
+
+$\bullet$ We can decompose the prediction error: \[\underbrace{Y_0 - \hat{\mu}_{Y \mid X = x_0}}_{\text{prediction error}} = \underbrace{(Y_0 - \mu_{Y \mid X = x_0})}_{\text{random sampling error}} + \underbrace{(\mu_{Y \mid X = x_0} - \hat{\mu}_{Y \mid X = x_0})}_{\text{estimation error}}.\]
+\end{definition}
+
+\begin{concept}
+Which has more uncertainty: a population mean confidence interval or a single observation prediction interval? 
+\end{concept}
+
+\begin{solutionbox}
+The single observation prediction interval has more uncertainty, reflected by the additional $+ 1$ in the margin of error. This makes sense since there are so many other factors that go into a new response (e.g., for predicted height of a child, we could look at the nutrition/sleep/lifestyle of the child).
+\end{solutionbox}
+
+% Section: $t$-Test as a Linear Model
+\section{$t$-Test as a Linear Model}
+
+\begin{idea}
+We can connect what we learned about the pooled two-sample $t$-test to the simple linear regression model!
+\end{idea}
+
+\begin{definition}[$t$-distribution]
+Let $Z \sim \N(0, 1)$ and $Y \sim \chi^{2}_{\nu}$, with $Z \indep Y$. Then \[T = \frac{Z}{\sqrt{Y / \nu}} \sim t_{\nu}.\]
+\end{definition}
+
+\begin{definition}[One-sample $t$-test]
+Let $Y_{1}, \ldots, Y_{n} \simiid \N(\mu, \sigma^2)$, with $\mu$ and $\sigma^2$ unknown. Define the \textit{sample variance} as \[S^2 = \frac{1}{n - 1} \sum_{i = 1}^{n} (Y_{i} - \bar{Y})^2.\] We want to conduct the two-sided test $H_{0}: \mu = \mu_{0}$ vs. $H_{A}: \mu \neq \mu_{0}$. We use \[T = \frac{\bar{Y} - \mu_{0}}{S / \sqrt{n}} \simnull t_{n - 1}\] as our \textit{test statistic} (i.e., its \textit{exact} distribution is known under $H_0$).
+\end{definition}
+
+\begin{definition}[Pooled two-sample $t$-test]
+Let $Y_{1, 1}, \ldots, Y_{1, n_1} \simiid \N(\mu_{1}, \sigma^2)$ and $Y_{2, 1}, \ldots, Y_{2, n_2} \simiid \N(\mu_{2}, \sigma^2)$, with the two samples independent and $\mu_{1}$, $\mu_{2}$, and $\sigma^2$ unknown. Define the \textit{pooled sample variance} as \[S^2_p = \frac{(n_1 - 1) S^2_1 + (n_2 - 1) S^2_2}{n_1 + n_2 - 2}.\] We want to conduct the two-sided test $H_{0}: \mu_1 = \mu_2$ vs. $H_{A}: \mu_1 \neq \mu_2$. We use \[T = \frac{\bar{Y}_{1} - \bar{Y}_{2}}{S_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}} \simnull t_{n_1 + n_2 - 2}\] as our \textit{test statistic} (i.e., its \textit{exact} distribution is known under $H_0$).
+\end{definition}
+
+\begin{definition}[Pooled two-sample $t$-test as a linear model]
+We can express the setup as \[Y_{j, i} = \mu_{j} + \varepsilon_{j, i},\] where $\varepsilon_{j, i} \simiid \N(0, \sigma^2)$ for all $j \in \{1, 2\}$ and $i \in \{1, \ldots, n_j\}$.
+
+$\bullet$ Equivalently, \[Y_{j, i} = \mu_{1} \indic\{\text{$j = 1$}\} + \mu_{2} \indic\{\text{$j = 2$}\} + \varepsilon_{j, i},\] which can be rewritten in matrix notation as
+
+\[
+\begin{pmatrix}
+Y_{1, 1} \\
+\vdots \\
+Y_{1, n_1} \\
+Y_{2, 1} \\
+\vdots \\
+Y_{2, n_2}
+\end{pmatrix}
+=
+\begin{pmatrix}
+1 & 0 \\
+\vdots & \vdots \\
+1 & 0 \\
+0 & 1 \\
+\vdots & \vdots \\
+0 & 1
+\end{pmatrix}
+\begin{pmatrix}
+\mu_{1} \\
+\mu_{2}
+\end{pmatrix}
++
+\begin{pmatrix}
+\varepsilon_{1, 1} \\
+\vdots \\
+\varepsilon_{1, n_1} \\
+\varepsilon_{2, 1} \\
+\vdots \\
+\varepsilon_{2, n_2}
+\end{pmatrix}.
+\]
+
+$\bullet$ As a linear model, let $\beta_0 = \mu_1$ and $\beta_1 = \mu_2 - \mu_1$ such that \[Y_{j, i} = \beta_{0} + \beta_{1} \indic\{\text{$j = 2$}\} + \varepsilon_{j, i},\] which can be rewritten in matrix notation as
+
+\[
+\begin{pmatrix}
+Y_{1, 1} \\
+\vdots \\
+Y_{1, n_1} \\
+Y_{2, 1} \\
+\vdots \\
+Y_{2, n_2}
+\end{pmatrix}
+=
+\begin{pmatrix}
+1 & 0 \\
+\vdots & \vdots \\
+1 & 0 \\
+1 & 1 \\
+\vdots & \vdots \\
+1 & 1
+\end{pmatrix}
+\begin{pmatrix}
+\beta_{0} \\
+\beta_{1}
+\end{pmatrix}
++
+\begin{pmatrix}
+\varepsilon_{1, 1} \\
+\vdots \\
+\varepsilon_{1, n_1} \\
+\varepsilon_{2, 1} \\
+\vdots \\
+\varepsilon_{2, n_2}
+\end{pmatrix}.
+\]
+\end{definition}
+
+% Section: Exercises
+\section{Exercises}
+
+\begin{problem}
+For this problem, refer to the code and output below.
+
+(a) Walk through the code. Specifically, it may help to fill in the comments.
+
+(b) What are the formulas for \texttt{Estimate:(Intercept) = 138.902} and \texttt{Estimate:indic = -29.236} from \texttt{lm()}?
+
+(c) Why is \texttt{t value:indic = -118.8} from \texttt{lm()} different from \texttt{t = 115.17} from \texttt{t.test()}? 
+\end{problem}
+
+\begin{lstlisting}
+```{r}
+# 1: 
+set.seed(139)
+
+# 2: 
+n_1 = 30
+n_2 = 40
+mu_1 = 139
+mu_2 = 110
+sigma = 1
+
+# 3: 
+Y_1_vec <- rnorm(n_1, mu_1, sigma)
+Y_2_vec <- rnorm(n_2, mu_2, sigma)
+
+# 4: 
+Y <- c(Y_1_vec, Y_2_vec)
+indic <- c(rep(0, n_1), rep(1, n_2))
+df <- as.data.frame(cbind(Y, indic))
+
+# 5: 
+t.test(Y_1_vec, Y_2_vec)
+
+# 6: 
+summary(lm(Y ~ indic, data = df))
+```
+\end{lstlisting}
+
+\begin{routput}
+	Welch Two Sample t-test
+
+data:  Y_1_vec and Y_2_vec
+t = 115.17, df = 54.401, p-value < 2.2e-16
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ 28.72724 29.74491
+sample estimates:
+mean of x mean of y 
+  138.902   109.666 
+
+Call:
+lm(formula = Y ~ indic, data = df)
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  138.902      0.186   746.8   <2e-16 ***
+indic        -29.236      0.246  -118.8   <2e-16 ***
+---
+\end{routput}
+
+\begin{solutionbox}
+(a) 
+\# 1: Set seed for reproducibility
+\# 2: Define parameters
+\# 3: Generate random data
+\# 4: Define df for lm()
+\# 5: Run t-test
+\# 6: Run linear regression
+
+(b) For \texttt{Estimate:(Intercept) = 138.902}, this is $\bar{y}_1$. For \texttt{Estimate:indic = -29.236}, this is $\bar{y}_2 - \bar{y}_1$. In general for linear regression with a categorical predictor in \texttt{lm()}, the estimate of the $y$-intercept is the sample mean for the baseline group (here, $\bar{y}_1$) and the estimate of the indicator for group $j$ is the sample mean for group $j$ minus the sample mean for the baseline group (here, $\bar{y}_2 - \bar{y}_1$).
+
+(c) Importantly, \texttt{t.test()}, by default, uses an unpooled $t$-test while the standard \texttt{lm()} fit assumes a common variance across the two groups and therefore yields the equivalent of the pooled two-sample $t$-test (which is appropriate here since the two groups do have shared variance). If we instead ran \texttt{t.test(Y\_1\_vec, Y\_2\_vec, var.equal = TRUE)}, then we'd see \texttt{t = 118.83}. As explained in (b), \texttt{lm()} flips the order, so \texttt{t = 118.83} from \texttt{t.test()} corresponds to \texttt{t value:indic = -118.8} from \texttt{lm()}.
+\end{solutionbox}
+
+\begin{problem}
+Let's derive the population mean confidence interval and single observation prediction interval, which are both centered around $\hat{\mu}_{Y \mid X = x_0} = \hat{\beta}_0 + \hat{\beta}_1 x_0$.
+
+(a) Find $\E[\hat{\mu}_{Y \mid X = x_0}]$.
+
+(b) Find $\Cov[\hat{\beta}_0, \hat{\beta}_1]$.
+
+(c) Find $\Var[\hat{\mu}_{Y \mid X = x_0}]$.
+
+(d) Find the distribution of $\hat{\mu}_{Y \mid X = x_0}$.
+
+(e) Recall that $Y_i \simind \N(\beta_0 + \beta_1 x_i, \sigma^2)$. Thus, $Y_0 \sim \N(\beta_0 + \beta_1 x_0, \sigma^2)$. This is a new response, so $Y_0$ is independent of $Y_1, \ldots, Y_n$—i.e., the data used to calculate $\hat{\beta}_0$, $\hat{\beta}_1$, and $\hat{\sigma}^2_{\OLS}$. Recall that the prediction error is $Y_0 - \hat{\mu}_{Y \mid X = x_0}$, whose expectation is $0$. Find $\Var[Y_0 - \hat{\mu}_{Y \mid X = x_0}]$.
+\end{problem}
+
+\begin{solutionbox}
+{
+\scriptsize
+(a)
+\[
+\begin{aligned}
+\E[\hat{\mu}_{Y \mid X = x_0}] &= \E[\hat{\beta}_0 + \hat{\beta}_1 x_0] && \text{by substituting} \\
+&= \E[\hat{\beta}_0] + x_0 \E[\hat{\beta}_1] && \text{by linearity} \\
+&= \beta_0 + \beta_1 x_0 && \text{by unbiasedness of OLS estimators}
+\end{aligned}
+\]
+
+(b)
+\[
+\begin{aligned}
+\Cov[\hat{\beta}_0, \hat{\beta}_1] &= \Cov[\bar{Y} - \hat{\beta}_{1} \bar{x}, \hat{\beta}_{1}] && \text{by substituting} \\
+&= \Cov[\bar{Y}, \hat{\beta}_{1}] + \Cov[- \hat{\beta}_{1} \bar{x}, \hat{\beta}_{1}] && \text{by distributing} \\
+&= \Cov[\bar{Y}, \hat{\beta}_{1}] - \bar{x} \Var[\hat{\beta}_{1}] && \text{by bilinearity} \\
+&= \Cov \left[ \frac{1}{n} \sum_{i = 1}^{n} Y_i, \frac{\sum_{j = 1}^{n} (x_j - \bar{x})(Y_j - \bar{Y})}{s_{xx}} \right] - \bar{x} \Var[\hat{\beta}_{1}] && \text{by substituting} \\
+&= \Cov \left[ \frac{1}{n} \sum_{i = 1}^{n} Y_i, \frac{\sum_{j = 1}^{n} (x_j - \bar{x}) Y_j}{s_{xx}} \right] - \bar{x} \Var[\hat{\beta}_{1}] && \text{since $\sum_{i = 1}^{n} (x_i - \bar{x}) (Y_i - \bar{Y}) = \sum_{i = 1}^{n} (x_i - \bar{x}) Y_i$} \\
+&= \left( \frac{1}{n s_{xx}} \right) \Cov \left[ \sum_{i = 1}^{n} Y_i, \sum_{j = 1}^{n} (x_j - \bar{x}) Y_j \right] - \bar{x} \Var[\hat{\beta}_{1}] && \text{by bilinearity} \\
+&= \left( \frac{1}{n s_{xx}} \right) \sum_{i = 1}^{n} \sum_{j = 1}^{n} \Cov \left[ Y_i, (x_j - \bar{x}) Y_j \right] - \bar{x} \Var[\hat{\beta}_{1}] && \text{by distributing} \\
+&= \left( \frac{1}{n s_{xx}} \right) \sum_{i = 1}^{n} \sum_{j = 1}^{n} (x_j - \bar{x}) \Cov \left[ Y_i, Y_j \right] - \bar{x} \Var[\hat{\beta}_{1}] && \text{by bilinearity} \\
+&= \left( \frac{1}{n s_{xx}} \right) \left( \sum_{i = j} (x_j - \bar{x}) \Cov \left[ Y_i, Y_j \right] + \sum_{i \neq j} (x_j - \bar{x}) \Cov \left[ Y_i, Y_j \right] \right) - \bar{x} \Var[\hat{\beta}_{1}] && \text{by separating summation} \\
+&= \left( \frac{1}{n s_{xx}} \right) \left( \sigma^2 \sum_{i = j} (x_j - \bar{x}) + 0 \sum_{i \neq j} (x_j - \bar{x}) \right) - \bar{x} \Var[\hat{\beta}_{1}] && \text{by independence} \\
+&= \left( \frac{1}{n s_{xx}} \right) \left( \sigma^2 0 \right) - \bar{x} \Var[\hat{\beta}_{1}] && \text{since $\sum_{i = 1}^{n} (x_i - \bar{x}) = 0$} \\
+&= - \bar{x} \Var[\hat{\beta}_{1}] && \text{by simplifying}
+\end{aligned}
+\]
+
+(c)
+\[
+\begin{aligned}
+\Var[\hat{\mu}_{Y \mid X = x_0}] &= \Var[\hat{\beta}_0 + \hat{\beta}_1 x_0] && \text{by substituting} \\
+&= \Var[\hat{\beta}_0] + x_0^2 \Var[\hat{\beta}_1] + 2 x_0 \Cov[\hat{\beta}_0, \hat{\beta}_1] && \text{by bilinearity} \\
+&= \Var[\hat{\beta}_0] + x_0^2 \Var[\hat{\beta}_1] + 2 x_0 (- \bar{x} \Var[\hat{\beta}_{1}]) && \text{by substituting} \\
+&= \Var[\hat{\beta}_0] + \Var[\hat{\beta}_1] (x_0^2 - 2 x_0 \bar{x}) && \text{by simplifying} \\
+&= \sigma^2 \left( \frac{1}{n} + \frac{\bar{x}^2}{s_{xx}} \right) + \frac{\sigma^2}{s_{xx}} (x_0^2 - 2 x_0 \bar{x}) && \text{by substituting} \\
+&= \sigma^2 \left( \frac{1}{n} + \frac{(x_0 - \bar{x})^2}{s_{xx}} \right) && \text{by simplifying}
+\end{aligned}
+\]
+
+(d) $\hat{\mu}_{Y \mid X = x_0} = \hat{\beta}_0 + \hat{\beta}_1 x_0$, where $(\hat{\beta}_0, \hat{\beta}_1)$ is Multivariate Normal, so $\hat{\mu}_{Y \mid X = x_0}$ is Normal as a linear combination. Thus, $\hat{\mu}_{Y \mid X = x_0} \sim \N \left( \beta_0 + \beta_1 x_0, \sigma^2 \left( \frac{1}{n} + \frac{(x_0 - \bar{x})^2}{s_{xx}} \right) \right)$.
+
+(e)
+\[
+\begin{aligned}
+\Var[Y_0 - \hat{\mu}_{Y \mid X = x_0}] &= \Var[Y_0] + \Var[\hat{\mu}_{Y \mid X = x_0}] - 2 \Cov[Y_0, \hat{\mu}_{Y \mid X = x_0}] && \text{by bilinearity} \\
+&= \Var[Y_0] + \Var[\hat{\mu}_{Y \mid X = x_0}] && \text{by independence} \\
+&= \sigma^2 + \sigma^2 \left( \frac{1}{n} + \frac{(x_0 - \bar{x})^2}{s_{xx}} \right) && \text{by substituting} \\
+&= \sigma^2 \left(1 + \frac{1}{n} + \frac{(x_0 - \bar{x})^2}{s_{xx}} \right) && \text{by substituting}
+\end{aligned}
+\]
+}
+\end{solutionbox}
+
+% Appendix
+\appendix
+\section{Proofs}
+
+\subsection{OLS-MLE Connection}
+\label{app:ols-mle}
+
+\begin{proof}
+Assume ELIHN. We want to show that $\hat{\beta}_{1, \MLE} = \hat{\beta}_{1, \OLS}$, $\hat{\beta}_{0, \MLE} = \hat{\beta}_{0, \OLS}$, and $\hat{\sigma}^2_{\MLE} \neq \hat{\sigma}^2_{\OLS}$. Recall that $\hat{\beta}_{1, \OLS} = \frac{\sum_{i = 1}^{n} (x_i - \bar{x})(Y_i - \bar{Y})}{\sum_{i = 1}^{n} (x_i - \bar{x})^2}$, $\hat{\beta}_{0, \OLS} = \bar{Y} - \hat{\beta}_{1, \OLS} \bar{x}$, and $\hat{\sigma}^2_{\OLS} = \frac{1}{n - 2} \sum_{i = 1}^{n} (Y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i)^2$.
+
+By definition, the maximum likelihood estimators maximize the likelihood function—i.e., $\widehat{\vec{\theta}}_{\MLE} = \arg \max_{\vec{\theta} \in \Theta} \Like(\vec{\theta}; \vec{Y})$. Here, $\vec{\theta} = (\beta_0, \beta_1, \sigma^2)$, and $Y_i \simind \N(\beta_0 + \beta_1 x_i, \sigma^2)$.
+
+\[
+\begin{aligned}
+\Like(\beta_0, \beta_1, \sigma^2; \vec{Y}) &= f_{\vec{Y}}(\vec{Y}; \beta_0, \beta_1, \sigma^2) && \text{by def. of likelihood} \\
+&= \prod_{i = 1}^{n} f_{Y_i}(Y_i; \beta_0, \beta_1, \sigma^2) && \text{by independence} \\
+&= \prod_{i = 1}^{n} \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left(
+- \frac{1}{2 \sigma^2} (Y_i - \beta_0 - \beta_1 x_i)^2 \right) && \text{by Normal PDF} \\
+&= \frac{1}{(2 \pi \sigma^2)^{\frac{n}{2}}} \exp \left( - \frac{1}{2 \sigma^2} \sum_{i = 1}^{n} (Y_i - \beta_0 - \beta_1 x_i)^2 \right) && \text{by multiplying}
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+\ell(\beta_0, \beta_1, \sigma^2; \vec{Y}) &= \log \Like(\beta_0, \beta_1, \sigma^2; \vec{Y}) && \text{by def. of log-likelihood} \\
+&= - \frac{n}{2}\log(2\pi) - \frac{n}{2}\log(\sigma^2) - \frac{1}{2\sigma^2} \sum_{i = 1}^{n} (Y_i - \beta_0 - \beta_1 x_i)^2 && \text{by simplifying}
+\end{aligned}
+\]
+
+For any fixed $\sigma^2 > 0$, the first two terms do not depend on $\beta_0$ or $\beta_1$, and $\frac{1}{2\sigma^2} > 0$. Thus, \textit{maximizing} the log-likelihood with respect to $(\beta_0,\beta_1)$ is equivalent to \textit{minimizing} \[\sum_{i = 1}^{n} (Y_i - \beta_0 - \beta_1 x_i)^2,\] which is exactly the OLS objective. Therefore, \[\hat{\beta}_{1,\MLE} = \hat{\beta}_{1,\OLS}\] and \[\hat{\beta}_{0,\MLE} = \hat{\beta}_{0,\OLS}.\]
+
+Finally, let's maximize $\ell(\beta_0, \beta_1, \sigma^2; \vec{Y})$ with respect to $\sigma^2$. Let $c = \sum_{i = 1}^{n} (Y_i - \beta_0 - \beta_1 x_i)^2$, which does not depend on $\sigma^2$.
+
+\[
+\begin{aligned}
+\frac{\partial}{\partial \sigma^2} \ell(\beta_0, \beta_1, \sigma^2; \vec{Y}) &= \frac{\partial}{\partial \sigma^2} \left( - \frac{n}{2}\log(2\pi) - \frac{n}{2}\log(\sigma^2) - \frac{1}{2\sigma^2} c \right) && \text{by substituting} \\
+&= - \frac{n}{2} \times \frac{\partial}{\partial \sigma^2} \left( \log(\sigma^2) \right) - \frac{c}{2} \times \frac{\partial}{\partial \sigma^2} \left( \frac{1}{\sigma^2} \right) && \text{by linearity} \\
+&= - \frac{n}{2 \sigma^2} + \frac{c}{2 (\sigma^2)^2} && \text{by simplifying}
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+0 = - \frac{n}{2 \sigma^2} + \frac{c}{2 (\sigma^2)^2} &\implies \frac{n}{2 \sigma^2} = \frac{c}{2 (\sigma^2)^2} && \text{by adding} \\
+&\implies n 2 (\sigma^2)^2 = 2 \sigma^2 c && \text{by cross-multiplying} \\
+&\implies \sigma^2 = \frac{1}{n} \sum_{i = 1}^{n} (Y_i - \beta_0 - \beta_1 x_i)^2 && \text{by simplifying} \\
+\end{aligned}
+\]
+
+Therefore, \[\hat{\sigma}^2_{\MLE} = \frac{1}{n} \sum_{i = 1}^{n} (Y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i)^2,\] which is \textit{not} equal to \[\hat{\sigma}^2_{\OLS} = \frac{1}{n - 2} \sum_{i = 1}^{n} (Y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i)^2.\]
+\end{proof}
+
+\end{document}
